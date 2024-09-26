@@ -1,0 +1,36 @@
+name: Deploy to GitHub Pages
+
+# Trigger the workflow on push to the main branch
+on:
+  push:
+    branches:
+      - main  # Adjust the branch as necessary
+
+# Set permissions for the GITHUB_TOKEN
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    # Checkout the repository contents
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    # Build your project (optional: add build steps specific to your project)
+    # Example: if you're using Node.js, you might install dependencies and run the build process
+    - name: Install dependencies
+      run: npm install
+
+    - name: Build project
+      run: npm run build
+
+    # Deploy to GitHub Pages
+    - name: Deploy to GitHub Pages
+      uses: actions/deploy-pages@v4
+      with:
+        # Automatically uses GITHUB_TOKEN to authenticate
+        token: ${{ secrets.GITHUB_TOKEN }}
